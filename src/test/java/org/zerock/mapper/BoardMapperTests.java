@@ -20,12 +20,12 @@ public class BoardMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
-	@Test
+//	@Test
 	public void testGetList() {
 		mapper.getList().forEach(board -> log.info(board));
 	}
 	
-	@Test
+//	@Test
 	public void testPaging() {
 		Criteria cri = new Criteria();
 		cri.setPageNum(3);
@@ -36,7 +36,7 @@ public class BoardMapperTests {
 		list.forEach(board -> log.info(board));
 	}
 	
-	@Test 
+//	@Test 
 	public void testInsert() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 글");
@@ -48,7 +48,7 @@ public class BoardMapperTests {
 		log.info(board);
 	}
 	
-	@Test
+//	@Test
 	public void testInsertSelectKey() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 글 select key");
@@ -60,19 +60,19 @@ public class BoardMapperTests {
 		log.info(board);
 	}
 	
-	@Test
+//	@Test
 	public void testRead() {
 		BoardVO board = mapper.read(4L);
 		
 		log.info(board);
 	}
 	
-	@Test	
+//	@Test	
 	public void testDelete() {
 		log.info("DELETE COUNT: " + mapper.delete(3L));
 	}
 	
-	@Test
+//	@Test
 	public void testUpdate() {
 		BoardVO board = new BoardVO();
 		board.setBno(5L);
@@ -82,5 +82,16 @@ public class BoardMapperTests {
 		
 		int count = mapper.update(board);
 		log.info("UPDATE COUNT: " + count);
+	}
+	
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("새로");
+		cri.setType("TC");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
 	}
 }
