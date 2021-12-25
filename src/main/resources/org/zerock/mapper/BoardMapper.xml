@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.BoardMapper">
-	
+
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item="type" collection="typeArr">
@@ -32,22 +33,24 @@
 	</select>
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
-	<![CDATA[
-		select 
-		       bno, title, content, writer, regdate, updatedate
-		  from 
-		  	   (
-		  	   select /*+INDEX_DESC(tbl_board pk_board) */
-		  	          rownum rn, bno, title, content, writer, regdate, updatedate
-		  	     from tbl_board
-		  	    where
-	]]>
-		<include refid="criteria"></include>
-	<![CDATA[
-		  	    rownum <= #{pageNum} * #{amount}
-		  	   )
-		 where rn > (#{pageNum} - 1) * #{amount}
-	]]>
+  		<![CDATA[
+  			select 
+    				bno, title, content, writer, regdate, updatedate, replycnt
+  			  from 
+					(
+						select /*+INDEX_DESC(tbl_board pk_board) */
+								rownum rn, bno, title, content, writer, regdate, updatedate, replycnt 
+						  from tbl_board
+      					 where 
+		]]>
+
+  		<include refid="criteria"></include> 
+      
+  		<![CDATA[    
+						rownum <= #{pageNum} * #{amount}
+				     )
+  			   where rn > (#{pageNum} -1) * #{amount}   
+  		]]>
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
@@ -89,5 +92,11 @@
 		       writer = #{writer},
 		       updateDate = sysdate
 		 where bno = #{bno}
+	</update>
+	
+	<update id="updateRplyCnt">
+		update tbl_board 
+		   set replyCnt = replyCnt + #{amount} 
+		 where bno = {#bno}
 	</update>
 </mapper>

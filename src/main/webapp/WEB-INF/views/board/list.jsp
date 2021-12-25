@@ -37,6 +37,7 @@
                      	<td>
                      		<a class='move' href='${board.bno}'>
                      			${board.title }
+                     			<b>[${board.replyCnt }]</b>
                      		</a>
                      	</td>
                      	<td>${board.writer}</td>
