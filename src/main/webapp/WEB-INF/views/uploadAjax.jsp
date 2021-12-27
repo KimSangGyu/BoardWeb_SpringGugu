@@ -5,14 +5,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.uploadResult {
+		width:100%;
+		background-color: gray;
+	}
+	
+	.uploadResult ul {
+		display:flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.uploadResult ul li {
+		list-style: none;
+		padding: 10px;
+	}
+	
+	.uploadResult ul li img {
+		width:20px;
+	}
+</style>
 </head>
 <body>
 <h1>Upload with Ajax</h1>
 	<div class="uploadDiv">
 		<input type="file" name="uploadFile" multiple>
+		
 	</div>
-	
 	<button id="uploadBtn">Upload</button>
+
+	<div class="uploadResult">
+		<ul>
+		
+		</ul>
+	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	
@@ -36,6 +64,8 @@
 			
 			return true;
 		}	
+		
+		var cloneObj = $('.uploadDiv').clone();
 		
 		$("#uploadBtn").on('click', function(e) {
 			var formData = new FormData();
@@ -62,9 +92,36 @@
 				dataType : 'json',
 				success : function(result) {
 					console.log(result);
+					
+					showUploadedFile(result);
+					
+					$('.uploadDiv').html(cloneObj.html());
 				}
 			});
 		})
+		
+		var uploadResult = $(".uploadResult ul");
+		
+		function showUploadedFile(uploadResultArr) {
+			var str ="";
+			console.log(uploadResultArr);
+			$(uploadResultArr).each(function(i, obj){
+				
+				if (!obj.image) {
+					console.log('이미지 아님');
+					str += "<li><img src='/resources/img/attach.png'>"
+						+ obj.fileName + "</li>";
+				} else {
+					console.log("들어옴");
+					var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+					str += "<li><img src='/display?fileName=" + fileCallPath + "'></li>";
+				}
+			});
+			
+			uploadResult.append(str);
+		}
+		
 		
 	});
 	</script>
