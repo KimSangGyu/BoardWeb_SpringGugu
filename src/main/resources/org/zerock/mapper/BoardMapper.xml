@@ -94,9 +94,9 @@
 		 where bno = #{bno}
 	</update>
 	
-	<update id="updateRplyCnt">
+	<update id="updateReplyCnt">
 		update tbl_board 
 		   set replyCnt = replyCnt + #{amount} 
-		 where bno = {#bno}
+		 where bno = #{bno}
 	</update>
 </mapper>
