@@ -107,7 +107,6 @@ public class UploadController {
 			uploadPath.mkdirs();
 		}
 		
-		
 		for (MultipartFile multipartFile : uploadFile) {
 			
 			AttachFileDTO attachDTO = new AttachFileDTO();
@@ -127,6 +126,7 @@ public class UploadController {
 				File saveFile = new File(uploadPath, uploadFileName);
 				multipartFile.transferTo(saveFile);
 				
+				attachDTO.setImage(false);
 				attachDTO.setUuid(uuid.toString());
 				attachDTO.setUploadPath(uploadFolderPath);
 				
@@ -140,6 +140,8 @@ public class UploadController {
 					
 					thumbnail.close();
 				}
+				
+				
 				
 				// add to List
 				list.add(attachDTO);
