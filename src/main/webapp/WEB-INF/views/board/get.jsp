@@ -84,7 +84,7 @@
 
 .bigPictureWrapper {
 	position: absolute;
-	dispaly: none;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	top: 0%;
